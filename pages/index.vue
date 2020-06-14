@@ -7,7 +7,7 @@
             Loading...
           </div>
           <div v-else>
-            <p class="tittle">{{ global.data ? global.data.meninggal : 0 }}</p>
+            <p class="tittle">{{ global.data ? numberWithCommas(global.data.meninggal) : 0 }}</p>
             <p class="desc">Meninggal</p>
           </div>
         </div>
@@ -15,21 +15,21 @@
 
       <div class="flex-1 m-1">
         <div class="info-wrapper bg-monokai-green">
-          <p class="tittle">{{ global.data ? global.data.sembuh : 0 }}</p>
+          <p class="tittle">{{ global.data ? numberWithCommas(global.data.sembuh) : 0 }}</p>
           <p class="desc">Sembuh</p>
         </div>
       </div>
 
       <div class="flex-1 m-1">
         <div class="info-wrapper bg-monokai-orange">
-          <p class="tittle">{{ global.data ? global.data.perawatan : 0 }}</p>
+          <p class="tittle">{{ global.data ? numberWithCommas(global.data.perawatan) : 0 }}</p>
           <p class="desc">Perawatan</p>
         </div>
       </div>
 
       <div class="flex-1 m-1">
         <div class="info-wrapper bg-monokai-blue">
-          <p class="tittle">{{ global.data ? global.data.jumlahKasus : 0 }}</p>
+          <p class="tittle">{{ global.data ? numberWithCommas(global.data.jumlahKasus) : 0 }}</p>
           <p class="desc">Jumlah Kasus</p>
         </div>
       </div>
@@ -48,22 +48,22 @@
           <span class="font-bold text-lg text-white">Tanggal : {{ formatTgl(item.tanggal) }}  </span>
           <div class="flex flex-wrap mt-2">
             <div class="flex-1 info-wrapper-harian">
-              <p class="tittle">{{ item.jumlahKasusMeninggalperHari }}</p>
+              <p class="tittle">{{ item.jumlahKasusMeninggalperHari ? numberWithCommas(item.jumlahKasusMeninggalperHari) : 0 }}</p>
               <p class="desc">Meninggal</p>
             </div>
 
             <div class="flex-1 info-wrapper-harian">
-              <p class="tittle">{{ item.jumlahKasusSembuhperHari }}</p>
+              <p class="tittle">{{ item.jumlahKasusSembuhperHari ? numberWithCommas(item.jumlahKasusSembuhperHari) : 0 }}</p>
               <p class="desc">Sembuh</p>
             </div>
 
             <div class="flex-1 info-wrapper-harian">
-              <p class="tittle">{{ item.jumlahKasusDirawatperHari }}</p>
+              <p class="tittle">{{ item.jumlahKasusDirawatperHari ? numberWithCommas(item.jumlahKasusDirawatperHari) : 0 }}</p>
               <p class="desc">Dirawat</p>
             </div>
 
             <div class="flex-1 info-wrapper-harian">
-              <p class="tittle">{{ item.jumlahKasusBaruperHari }}</p>
+              <p class="tittle">{{ item.jumlahKasusBaruperHari ? numberWithCommas(item.jumlahKasusBaruperHari) : 0 }}</p>
               <p class="desc">Kasus Baru</p>
             </div>
           </div>
@@ -87,7 +87,10 @@ export default {
     store.dispatch('covid/getHarian')
   },
   methods: {
-    formatTgl: (tgl) => moment(tgl).format('YYYY/MM/DD')
+    formatTgl: (tgl) => moment(tgl).format('YYYY/MM/DD'),
+    numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
   },
   computed: {
     ...mapState({
